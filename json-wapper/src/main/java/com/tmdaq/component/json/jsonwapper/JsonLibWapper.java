@@ -1,41 +1,45 @@
-package com.tmdaq.jsonwapper;
+package com.tmdaq.component.json.jsonwapper;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.tmdaq.component.json.jsonwapper.Json.Result.ERROR;
+
 /**
  * @author vttmlin
  */
-public class JsonWapper extends Json {
-
+@Slf4j
+public class JsonLibWapper implements Json {
     @Override
     public Map readValue(String json) {
         if (json == null || "".equals(json)) {
+            log.error(ERROR.getMsg());
             return new HashMap(0);
-        } else {
-            return new JSONObject(json).toMap();
         }
+        return JSONObject.fromObject(json);
     }
 
     @Override
     public List readValueFromList(String json) {
         if (json == null || "".equals(json)) {
+            log.error(ERROR.getMsg());
             return new ArrayList();
         }
-        return new JSONArray(json).toList();
+        return JSONArray.fromObject(json);
     }
 
     @Override
     public String toJsonString(Object o) {
         if (o instanceof List) {
-            return new JSONArray(o).toString();
+            return JSONArray.fromObject(o).toString();
         } else {
-            return new JSONObject(o).toString();
+            return JSONObject.fromObject(o).toString();
         }
     }
 }

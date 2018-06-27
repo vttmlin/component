@@ -1,7 +1,8 @@
-package com.tmdaq.jsonwapper;
+package com.tmdaq.component.json.jsonwapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,10 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.tmdaq.component.json.jsonwapper.Json.Result.ERROR;
+
 /**
  * @author vttmlin
  */
-public class JackSonWapper extends Json {
+@Slf4j
+public class JackSonWapper implements Json {
     private static ObjectMapper holder = new ObjectMapper();
 
     @Override
@@ -21,7 +25,7 @@ public class JackSonWapper extends Json {
             try {
                 return holder.readValue(json, Map.class);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(ERROR.getMsg(), e);
             }
         }
         return new HashMap<>(0);
@@ -33,7 +37,7 @@ public class JackSonWapper extends Json {
             try {
                 return holder.readValue(json, List.class);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(ERROR.getMsg(), e);
             }
         }
         return new ArrayList();
@@ -44,7 +48,7 @@ public class JackSonWapper extends Json {
         try {
             return holder.writeValueAsString(o);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error(ERROR.getMsg(), e);
         }
         return "";
     }
