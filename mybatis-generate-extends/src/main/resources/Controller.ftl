@@ -35,7 +35,7 @@ public class ${Bean}Controller {
     }
 
     @DeleteMapping("/id")
-    public ResultDO<${Bean}> delete(@PathVariable("id") Integer id) {
+    public ResultDO<${Bean}> deleteByPrimaryKey(@PathVariable("id") Integer id) {
         return ${bean}Service.deleteByPrimaryKey(id);
     }
 }
