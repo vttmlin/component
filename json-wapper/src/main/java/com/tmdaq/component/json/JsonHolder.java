@@ -13,7 +13,7 @@ public class JsonHolder {
     private JsonHolder() {
     }
 
-    public final static  Json getInstance() {
+    public static final Json getInstance() {
         return Holder.instalce;
     }
 
