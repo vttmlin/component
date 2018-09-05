@@ -76,7 +76,7 @@ public class ListPageAdapter extends PluginAdapter {
             element.addElement(ifElementEnd);
         } else {
             ifElement.addAttribute(new Attribute("test", String.format("query.%s !=null", javaProperty)));
-            ifElement.addElement(new TextElement(String.format("%s = #{query.%s,jdbcType=%s}", actualColumnName, javaProperty, jdbcTypeName)));
+            ifElement.addElement(new TextElement(String.format("and %s = #{query.%s,jdbcType=%s}", actualColumnName, javaProperty, jdbcTypeName)));
             element.addElement(ifElement);
         }
     }
