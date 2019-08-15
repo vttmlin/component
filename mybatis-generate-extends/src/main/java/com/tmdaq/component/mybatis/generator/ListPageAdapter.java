@@ -62,20 +62,21 @@ public class ListPageAdapter extends PluginAdapter {
         String javaProperty = introspectedColumn.getJavaProperty();
         String jdbcTypeName = introspectedColumn.getJdbcTypeName();
         String actualColumnName = introspectedColumn.getActualColumnName();
+        final String testLabel = "test";
         if ("String".equals(shortName)) {
-            ifElement.addAttribute(new Attribute("test", String.format("query.%s !=null and query.%s != null", javaProperty, javaProperty)));
+            ifElement.addAttribute(new Attribute(testLabel, String.format("query.%s !=null and query.%s != null", javaProperty, javaProperty)));
             ifElement.addElement(new TextElement(String.format("and %s = #{query.%s,jdbcType=%s}", actualColumnName, javaProperty, jdbcTypeName)));
             element.addElement(ifElement);
         } else if ("Date".equals(shortName)) {
-            ifElement.addAttribute(new Attribute("test", String.format("query.%s !=null", javaProperty + "Start")));
+            ifElement.addAttribute(new Attribute(testLabel, String.format("query.%s !=null", javaProperty + "Start")));
             ifElement.addElement(new TextElement(String.format("and %s >= #{query.%s,jdbcType=%s}", actualColumnName, javaProperty, jdbcTypeName)));
             element.addElement(ifElement);
             XmlElement ifElementEnd = new XmlElement("if");
-            ifElementEnd.addAttribute(new Attribute("test", String.format("query.%s !=null", javaProperty + "End")));
+            ifElementEnd.addAttribute(new Attribute(testLabel, String.format("query.%s !=null", javaProperty + "End")));
             ifElementEnd.addElement(new TextElement(String.format("and %s &lt;= #{query.%s,jdbcType=%s}", actualColumnName, javaProperty, jdbcTypeName)));
             element.addElement(ifElementEnd);
         } else {
-            ifElement.addAttribute(new Attribute("test", String.format("query.%s !=null", javaProperty)));
+            ifElement.addAttribute(new Attribute(testLabel, String.format("query.%s !=null", javaProperty)));
             ifElement.addElement(new TextElement(String.format("%s = #{query.%s,jdbcType=%s}", actualColumnName, javaProperty, jdbcTypeName)));
             element.addElement(ifElement);
         }
@@ -101,9 +102,9 @@ public class ListPageAdapter extends PluginAdapter {
                 fieldEnd.setType(new FullyQualifiedJavaType("String"));
                 addField.add(fieldEnd);
             }
-            field.addJavaDocLine("/**");
-            field.addJavaDocLine(String.format(" *  length=%s", null));
-            field.addJavaDocLine(" * */");
+//            field.addJavaDocLine("/**");
+//            field.addJavaDocLine(String.format(" *  length=%s", null));
+//            field.addJavaDocLine(" * */");
         }
         for (Field field : addField) {
             topLevelClass.addField(field);

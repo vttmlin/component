@@ -14,30 +14,38 @@ public class JsonHolder {
     }
 
     public static final Json getInstance() {
-        return Holder.instalce;
+        return Holder.INSTANCE;
     }
 
     private static final class Holder {
-        private static Json instalce = null;
+        private static Json INSTANCE = null;
         private static String[] arr = new String[]{"com.alibaba.fastjson.JSON", "com.google.gson.Gson", "com.fasterxml.jackson.databind.ObjectMapper", "net.sf.json.JSONObject", "org.json.JSONObject"};
+
 
         static {
             for (String s : arr) {
-                if ("com.alibaba.fastjson.JSON".equals(s)) {
-                    instalce = new FastJsonWapper();
+                try {
+                    Class.forName(s);
+                    if ("com.alibaba.fastjson.JSON".equals(s)) {
+                        INSTANCE = new FastJsonWapper();
+                    }
+                    if ("com.google.gson.Gson".equals(s)) {
+                        INSTANCE = new GsonWapper();
+                    }
+                    if ("com.fasterxml.jackson.databind.ObjectMapper".equals(s)) {
+                        INSTANCE = new JackSonWapper();
+                    }
+                    if ("net.sf.json.JSONObject".equals(s)) {
+                        INSTANCE = new JsonLibWapper();
+                    }
+                    if ("org.json.JSONObject".equals(s)) {
+                        INSTANCE = new JsonWapper();
+                    }
+                    break;
+                } catch (ClassNotFoundException e) {
+                    //ignore error
                 }
-                if ("com.google.gson.Gson".equals(s)) {
-                    instalce = new GsonWapper();
-                }
-                if ("com.fasterxml.jackson.databind.ObjectMapper".equals(s)) {
-                    instalce = new JackSonWapper();
-                }
-                if ("net.sf.json.JSONObject".equals(s)) {
-                    instalce = new JsonLibWapper();
-                }
-                if ("org.json.JSONObject".equals(s)) {
-                    instalce = new JsonWapper();
-                }
+
             }
         }
     }
